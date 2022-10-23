@@ -1,16 +1,61 @@
-# This is a sample Python script.
+import graphene
+from mutation import CreateUser, UpdateUser, DeleteUser
+from query import Query
+from type import User
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+class UserMutation(graphene.ObjectType):
+    create_user = CreateUser.Field()
+    update_user = UpdateUser.Field()
+    delete_user = DeleteUser.Field()
+
+class UserQuery(Query):
+    user = graphene.Field(User)
+    get_user = graphene.Field(User, id=graphene.String())
+    get_users = graphene.List(User)
+
+schema = graphene.Schema(query= UserQuery, mutation=UserMutation)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+result = schema.execute(
+    '''
+    mutation {
+        createUser(id:"1", name:"Alice", email:"alice@email.com"){
+            user {
+                id
+                name
+                email
+            }
+        }
+    }
+    '''
+)
+print(result.data)
+result = schema.execute(
+    '''
+    mutation {
+        updateUser(id:"1", email:"alice1@email.com"){
+            user {
+                id
+                name
+                email
+            }
+        }
+    }
+    '''
+)
+print(result.data)
+result = schema.execute(
+    '''
+    Query {
+        getUser(id:"1"){
+            user {
+                id
+                name
+                email
+            }
+        }
+    }
+    '''
+)
+print(result.data)
