@@ -32,7 +32,7 @@ class UpdateUser(graphene.Mutation):
 
     @staticmethod
     def mutate(root, info, id, email):
-        old_user = list(filter(lambda user: user["id"]==id))[0]
+        old_user = list(filter(lambda user: user["id"]==id, users))[0]
         new_user = User(id=id, name=old_user["name"], email=email)
         users.remove(old_user)
         users.append(

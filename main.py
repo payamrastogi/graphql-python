@@ -16,11 +16,11 @@ class UserQuery(Query):
 schema = graphene.Schema(query= UserQuery, mutation=UserMutation)
 
 
-
+### Create User###
 result = schema.execute(
     '''
     mutation {
-        createUser(id:"1", name:"Alice", email:"alice@email.com"){
+        createUser(id:"3", name:"Cate", email:"cate@email.com"){
             user {
                 id
                 name
@@ -31,6 +31,7 @@ result = schema.execute(
     '''
 )
 print(result.data)
+### Update User###
 result = schema.execute(
     '''
     mutation {
@@ -45,15 +46,29 @@ result = schema.execute(
     '''
 )
 print(result.data)
+print(result.errors)
+#####Get user by id ####
 result = schema.execute(
     '''
-    Query {
+    query {
         getUser(id:"1"){
-            user {
-                id
-                name
-                email
-            }
+            id
+            name
+            email
+        }
+    }
+    '''
+)
+print(result.data)
+#print(result.errors)
+#### Get all users######
+result = schema.execute(
+    '''
+    query {
+        getUsers {
+            id
+            name
+            email
         }
     }
     '''

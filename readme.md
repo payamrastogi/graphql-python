@@ -1,0 +1,2 @@
+- https://github.com/graphql-python/graphene/blob/master/docs/execution/execute.rst
+- https://www.youtube.com/watch?v=ZUrNFhG3LK4
